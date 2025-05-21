@@ -1,26 +1,17 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
+// constants/colors.js
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
-
-export const Colors = {
-  light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
-  },
-  dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
-  },
+export default {
+  primary: '#4CAF50',       // Green - Primary theme
+  secondary: '#FFC107',     // Amber - Accent color
+  background: '#F5F5F5',    // Light gray background
+  card: '#FFFFFF',          // White card color
+  textPrimary: '#212121',   // Dark text
+  textSecondary: '#757575', // Subtle text
+  error: '#f44336',         // Red for errors
+  success: '#2e7d32',       // Dark green for success
+  info: '#2196f3',          // Blue info color
+  border: '#E0E0E0',        // Light border
+  disabled: '#BDBDBD',      // For disabled inputs or buttons
+  tabIconDefault: '#999',   // Inactive tab icon
+  tabIconSelected: '#4CAF50'// Active tab icon (same as primary)
 };
