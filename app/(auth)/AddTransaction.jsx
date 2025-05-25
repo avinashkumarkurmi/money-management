@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from "@react-native-picker/picker";
-import { addDoc, collection, getDocs, orderBy, query, serverTimestamp } from 'firebase/firestore';
-import { useState } from "react";
+import { addDoc, collection, doc, getDocs, increment, orderBy, query, serverTimestamp, updateDoc } from 'firebase/firestore';
+import { useState, } from "react";
 import { Alert, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Colors from "../../constants/Colors";
 import { db } from '../../firebase'; // adjust path as needed
@@ -18,42 +18,56 @@ export default function AddTransaction() {
 
     const handleAddTrans = async () => {
         if (!title || !amount) {
-            Alert.alert("Detail Unfilled", "Please fill all the deatils")
-            return;
+          Alert.alert("Detail Unfilled", "Please fill all the details");
+          return;
         }
         try {
-            // Get current user from AsyncStorage
-            const userJson = await AsyncStorage.getItem('user');
-            const user = JSON.parse(userJson);
-
-            if (!user?.uid) throw new Error('User not authenticated');
-
-            // Reference to user's transactions subcollection
-            const userTransactionsRef = collection(db, 'users', user.uid, 'transactions');
-
-            // Add a new transaction document
-            await addDoc(userTransactionsRef, {
-                title: title,
-                amount: parseInt(amount),
-                category: category,
-                type: type,
-                date: serverTimestamp(),
-            });
-
-            console.log("Transaction added!");
-            setTitle("");
-            setAmount("");
-            // setCategory("Food");
-            // setType("expense");
-
-            console.log(await fetchUserTransactions())
+          // Get current user from AsyncStorage
+          const userJson = await AsyncStorage.getItem('user');
+          const user = JSON.parse(userJson);
+      
+          if (!user?.uid) throw new Error('User not authenticated');
+      
+          // Reference to user's document and transactions subcollection
+          const userRef = doc(db, 'users', user.uid);
+          const userTransactionsRef = collection(db, 'users', user.uid, 'transactions');
+      
+          // Create new transaction document in subcollection
+          await addDoc(userTransactionsRef, {
+            title: title,
+            amount: parseFloat(amount),
+            category: category,
+            type: type,
+            date: serverTimestamp(),  // works here because not inside an array
+          });
+      
+          // Calculate balance change based on transaction type
+          const balanceChange = type === 'income' ? parseFloat(amount) : -parseFloat(amount);
+      
+          // Increment the balance in user document
+          await updateDoc(userRef, {
+            balance: increment(balanceChange),
+          });
+      
+          console.log("Transaction added and balance updated.");
+          Alert.alert("Sucess","Trsaction added.")
+          // Reset input fields
+          setTitle("");
+          setAmount("");
+          // setCategory("Food");  // optionally reset category
+          // setType("expense");   // optionally reset type
+      
+          // Optionally fetch updated transactions and balance
+        //   console.log(await fetchUserTransactions());
+      
         } catch (error) {
-            console.error("Error adding transaction:", error.message);
+            Alert.alert("Failure","Trsaction add unsucessful.")
+          console.error("Error adding transaction:", error.message);
         }
-
-
-
-    }
+      };
+      
+      
+      
 
 
     async function fetchUserTransactions() {
