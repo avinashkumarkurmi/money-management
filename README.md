@@ -2,8 +2,13 @@
 
 Here is how the app looks:
 
-![App Screenshot 1](screenshots/screenshot1.png)
-![App Screenshot 2](screenshots/app-preview.jpg)
+![App Screenshot 1](screenshots/screenShot1.jpeg)
+![App Screenshot 2](screenshots/screenShot2.jpeg)
+![App Screenshot 1](screenshots/screenShot3.jpeg)
+![App Screenshot 2](screenshots/screenShot4.jpeg)
+![App Screenshot 1](screenshots/screenShot5.jpeg)
+![App Screenshot 2](screenshots/screenShot6.jpeg)
+![App Screenshot 2](screenshots/screenShot7.jpeg)
 
 
 
